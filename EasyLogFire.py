@@ -7,34 +7,37 @@ from datetime import datetime
 # This is Open-Sourced...As I know
 
 
-
+#structure for Delivery
 class Delivery(BaseModel):
         timestamp: datetime
         dimensions: tuple[int, int]
 
+
+#For Delivery function and Simplized Timestamp with str
 m=Delivery(timestamp=datetime.now(),
            dimensions=(10, 20))
+
+#time status format
 timestatus= "["+str(m.timestamp.year)+"-"+str(m.timestamp.month)+"-"+str(m.timestamp.day)+" "+str(m.timestamp.hour)+":"+str(m.timestamp.minute)+":"+str(m.timestamp.second)+"] "
 
 
-
-def initialize_Easylogger(serv_name="default"):
+#this is for initializing EasyLogFire with LogFire
+def initialize_EasyLogFire(serv_name="default"):
     lf.configure(service_name = serv_name)
-
     lf.instrument_pydantic()
 
 
-
+#this is for Sending Log with LogFire
 def send_logs(Delivery=m, ctx="No message", extra_content="", ):
     lf.info(timestatus+ctx,
             extra={"timestamp": repr(Delivery.timestamp),
                    "context": extra_content},
             )   
     
-
+#Please, Use this Function for Initialize Pydantic more easier
 def initialize_Pydantic(serv_name= ""):
     service_name=serv_name
-    initialize_Easylogger(service_name)
+    initialize_EasyLogFire(service_name)
     
     send_logs(m,"Initialized "+service_name)
     
