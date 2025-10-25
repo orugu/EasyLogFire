@@ -1,4 +1,4 @@
-import easylogger as el
+import EasyLogFire as el
 
 def main():
     el.initialize_Pydantic(serv_name="Easylogger")
